@@ -1,11 +1,7 @@
-import pandas as pd
-from nltk.stem import PorterStemmer
+from textblob import Word
 import nltk
-nltk.download("punkt")
-from textblob import TextBlob
-import textblob
-
-st = PorterStemmer
+nltk.download("wordnet")
+import pandas as pd
 
 metin = """
 A Scandal in Bohemia! 01
@@ -26,6 +22,7 @@ v = metin.split("\n")
 seri = pd.Series(v)
 df = pd.DataFrame(seri, columns=["hikayeler"])
 
-a = df["hikayeler"].apply(lambda x: " ".join(st.stem(i) for i in x.split()))
-print(a)
 
+df = df["hikayeler"].apply(lambda x: " ".join(Word(word).lemmatize() for word in x.split()))
+
+print(df)
